@@ -10,7 +10,7 @@ body{
     color: #333
 }
 
-a{
+.navLinks{
     text-decoration: none;
     color: white;
 }
@@ -28,4 +28,12 @@ nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.bannerHeadline{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
 }
