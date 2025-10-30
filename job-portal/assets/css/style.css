@@ -31,10 +31,13 @@ nav{
 }
 
 .bannerHeadline{
-    text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin-top: 50px;
+}
+
+.bannerHeadline a{
+    text-decoration: none;
 }
