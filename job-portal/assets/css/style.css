@@ -215,3 +215,31 @@ footer {
 .btn-login:hover {
     background-color: #0056b3;
 }
+
+.register-container {
+    width: 100%;
+    /* Allowing it to be slightly wider than the login form for better spacing */
+    max-width: 450px; 
+}
+
+.register-card {
+    /* Reuse the styling of your .login-card, maybe rename it to a generic .auth-card */
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Ensure the select dropdown is styled consistently with inputs */
+.register-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1em;
+    /* Add an explicit height if needed for consistency */
+    height: 40px; 
+    appearance: none; /* Removes default browser styling for a cleaner look */
+    /* You might add a small down-arrow icon using background-image for visual effect */
+}
