@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=./server/dashboard.php">
     <title>Dashboard | Task Manager</title>
     <link rel="stylesheet" href="./assets/css/dashboard.css">
 </head>
+
 <body>
 
     <div class="dashboard-layout">
@@ -14,18 +17,18 @@
             <div class="profile-card">
                 <h4>Task Manager</h4>
                 <p>Welcome back,</p>
-                <h3 id="user-name">John Doe</h3>
+                <h3 id="user-name">User</h3>
                 <p class="user-role">Administrator</p>
             </div>
-            
+
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="#" class="active">My Tasks</a></li>
                 </ul>
             </nav>
-            
+
             <div class="sidebar-footer">
-                <a href="./login.html" class="btn btn-logout">Logout</a> 
+                <a href="./login.html" class="btn btn-logout">Logout</a>
             </div>
         </aside>
 
@@ -35,10 +38,11 @@
 
             <section class="task-input-section card">
                 <h3>Add New Task</h3>
-                <form id="taskForm" class="task-add-form">
+                <form id="taskForm" class="task-add-form" method="POST" action="./server/dashboard.php">
                     <div class="form-group-inline">
-                        <input type="text" id="taskTitle" placeholder="Enter task title (e.g., Finish report)" required>
-                        <select id="taskPriority" required>
+                        <input type="text" id="taskTitle" name="title"
+                            placeholder="Enter task title (e.g., Finish report)" required>
+                        <select id="taskPriority" name="task_priority" required>
                             <option value="" disabled selected>Select Priority</option>
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
@@ -51,27 +55,27 @@
 
             <section class="task-list-section">
                 <h2>Pending Tasks</h2>
-                
+
                 <ul id="taskList" class="task-list">
                     <li class="task-item pending">
                         <span class="task-title">Build Dashboard HTML Structure</span>
-                        <span class="task-details">High Added: 2025-11-11</span> 
+                        <span class="task-details">High Added: 2025-11-11</span>
                         <div class="task-actions">
                             <button class="btn-action btn-edit">Edit</button>
                             <button class="btn-action btn-complete">Complete</button>
                             <button class="btn-action btn-delete">Delete</button>
                         </div>
                     </li>
-                    
+
                     <li class="task-item completed">
                         <span class="task-title">Plan project structure changes</span>
-                        <span class="task-details">Low Completed: 2025-11-10</span> 
+                        <span class="task-details">Low Completed: 2025-11-10</span>
                         <div class="task-actions">
                             <button class="btn-action btn-delete">Delete</button>
                         </div>
                     </li>
                 </ul>
-                
+
                 <p class="no-tasks-message" style="display:none;"> All clear! Add a new task above.</p>
             </section>
 
@@ -80,4 +84,5 @@
 
     <script src="./assets/js/dashboard.js"></script>
 </body>
+
 </html>
