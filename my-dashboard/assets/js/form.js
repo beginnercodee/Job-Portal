@@ -34,3 +34,19 @@ if (registerForm && registerBtn) {
         registerForm.submit(); 
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get("error");
+
+    if (error === "invalid") {
+        let span = document.getElementById("loginError");
+        if (span) {
+            span.textContent = "Invalid email or password!";
+            span.style.display = "block";
+        }
+
+        history.replaceState({}, "", window.location.pathname);
+    }
+});
+
