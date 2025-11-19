@@ -40,7 +40,7 @@ nav {
 }
 
 .register-card {
-    background: #d85858; /* Fallback */
+    background: #d85858;
     background: -webkit-linear-gradient(to top left, #363c3f, #693838); 
     background: linear-gradient(to top left, #114d6b, #925252);
     

@@ -45,7 +45,7 @@ nav {
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    background: #d85858; /* Fallback */
+    background: #d85858;
     background: -webkit-linear-gradient(to top left, #363c3f, #693838); 
     background: linear-gradient(to top left, #114d6b, #925252);
 }
