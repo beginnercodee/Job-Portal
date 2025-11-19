@@ -1,3 +1,11 @@
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    background: #4b4355; 
+    background: -webkit-linear-gradient(to right, #2f0743, #41295a); 
+    background: linear-gradient(to right, #2f0743, #41295a);
+}
+
 .navLinks a {
     text-decoration: none;
     color: white;
@@ -36,11 +44,10 @@ nav {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #dee2e6;
     text-align: center;
-    background: #d3cce3; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #e9e4f0, #d3cce3);
-    background: linear-gradient(to right, #e9e4f0, #d3cce3);
+    background: #d85858; /* Fallback */
+    background: -webkit-linear-gradient(to top left, #363c3f, #693838); 
+    background: linear-gradient(to top left, #114d6b, #925252);
 }
 
 .login-card h2 {
@@ -109,4 +116,8 @@ nav {
     font-size: 14px;
     margin-top: 5px;
     display: none;
+}
+
+.register-link a{
+    color: rgb(39, 38, 38);
 }
