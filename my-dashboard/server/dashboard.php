@@ -16,22 +16,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
     $task_priority = $_POST['task_priority'];
     $insert = "INSERT INTO tasks (id, title, task_priority, task_status) 
                VALUES ('$user_id', '$task_title', '$task_priority', 'pending')";
-    $connect->query($insert);
+    if ($connect->query($insert)) {
+        header("Location: dashboard.php?status=success");
+    } else {
+        header("Location: dashboard.php?status=error");
+    }
+    exit();
 }
 
 if (isset($_GET['delete'])) {
     $task_id = $_GET['delete'];
     $delete = "DELETE FROM tasks WHERE task_id = $task_id AND id = $user_id";
-    $connect->query($delete);
-    header("Location: dashboard.php");
+    if ($connect->query($delete)) {
+        header("Location: dashboard.php?status=deleted");
+    } else {
+        header("Location: dashboard.php?status=error");
+    }
     exit();
 }
 
 if (isset($_GET['complete'])) {
     $task_id = $_GET['complete'];
     $update = "UPDATE tasks SET task_status='completed' WHERE task_id=$task_id AND id=$user_id";
-    $connect->query($update);
-    header("Location: dashboard.php");
+    if ($connect->query($update)) {
+        header("Location: dashboard.php?status=completed");
+    } else {
+        header("Location: dashboard.php?status=error");
+    }
     exit();
 }
 
@@ -47,6 +58,8 @@ $result = $connect->query("SELECT * FROM tasks WHERE id=$user_id ORDER BY Create
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
+
+<div id="toastContainer" class="toast-container"></div>
 
 <div class="dashboard-layout">
     <aside class="dashboard-sidebar">
