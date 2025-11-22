@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.html");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+$user_name = $_SESSION['fullname'];
+
 $database = "simple_app";
 $servername = "localhost";
 $username = "root";
@@ -9,13 +19,13 @@ if ($connect->connect_error) {
     die("Sorry, Connection failed: " . $connect->connect_error);
 }
 
-$user_id = 1;
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
     $task_title = $_POST['title'];
     $task_priority = $_POST['task_priority'];
+    
     $insert = "INSERT INTO tasks (id, title, task_priority, task_status) 
                VALUES ('$user_id', '$task_title', '$task_priority', 'pending')";
+    
     if ($connect->query($insert)) {
         header("Location: dashboard.php?status=success");
     } else {
@@ -66,7 +76,7 @@ $result = $connect->query("SELECT * FROM tasks WHERE id=$user_id ORDER BY Create
         <div class="profile-card">
             <h4>Task Manager</h4>
             <p>Welcome back,</p>
-            <h3 id="user-name">User</h3>
+            <h3 id="user-name"><?php echo htmlspecialchars($user_name); ?></h3>
         </div>
         <nav class="sidebar-nav">
             <ul>
@@ -74,12 +84,12 @@ $result = $connect->query("SELECT * FROM tasks WHERE id=$user_id ORDER BY Create
             </ul>
         </nav>
         <div class="sidebar-footer">
-            <a href="../login.html" class="btn btn-logout">Logout</a>
+            <a href="logout.php" class="btn btn-logout">Logout</a>
         </div>
     </aside>
 
     <main class="dashboard-content">
-        <h1>Task Management</h1>
+        <h1 class="dashboard-title">Task Management</h1>
         <p class="subtitle">Quickly add and manage your daily priorities.</p>
 
         <section class="task-input-section card">
@@ -99,16 +109,17 @@ $result = $connect->query("SELECT * FROM tasks WHERE id=$user_id ORDER BY Create
         </section>
 
         <section class="task-list-section">
-            <h2>My Tasks</h2>
+            <h2 class="section-heading">My Tasks</h2>
             <ul id="taskList" class="task-list">
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <li class="task-item <?= $row['task_status'] ?>">
-                        <span class="task-title"><?= htmlspecialchars($row['title']) ?></span>
-                        <span class="task-details">
-                            <?= ucfirst($row['task_priority']) ?> | 
-                            <?= ucfirst($row['task_status']) ?> |
-                            <?= date('Y-m-d', strtotime($row['Created'])) ?>
-                        </span>
+                        <div class="task-info">
+                            <span class="task-title"><?= htmlspecialchars($row['title']) ?></span>
+                            <span class="task-details">
+                                <?= ucfirst($row['task_priority']) ?> • 
+                                <?= date('M d, Y', strtotime($row['Created'])) ?>
+                            </span>
+                        </div>
                         <div class="task-actions">
                             <?php if ($row['task_status'] === 'pending'): ?>
                                 <a href="dashboard.php?complete=<?= $row['task_id'] ?>" class="btn-action btn-complete">Complete</a>

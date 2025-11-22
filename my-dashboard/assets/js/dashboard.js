@@ -1,4 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
+  fetch('./server/auth_check.php')
+    .then(response => response.json())
+    .then(data => {
+      if (!data.authenticated) {
+        window.location.href = './login.html';
+      } else {
+        const userNameElement = document.getElementById('user-name');
+        if (userNameElement && data.user_name) {
+          userNameElement.textContent = data.user_name;
+        }
+      }
+    })
+    .catch(error => {
+      console.error('Error checking auth:', error);
+    });
+
   function showToast(message, type = "success") {
     const container = document.getElementById("toastContainer");
 
@@ -19,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (status === "success") {
     showToast("Task added successfully!", "success");
+    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    window.history.replaceState({path: cleanUrl}, '', cleanUrl);
   } else if (status === "completed") {
     showToast("Task marked as completed!", "success");
   } else if (status === "deleted") {

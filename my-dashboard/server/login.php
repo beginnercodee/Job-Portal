@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $database = "simple_app";
 $servername = "localhost";
 $username = "root";
@@ -24,6 +26,9 @@ if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
 
     if (password_verify($password, $row['passwords'])) {
+
+        $_SESSION['user_id'] = $row['id'];       
+        $_SESSION['user_name'] = $row['fullname']; 
 
         header("Location: ../dashboard.html");
         exit();
