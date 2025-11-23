@@ -21,13 +21,16 @@ if ($password !== $confirmPassword) {
 
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO users (fullname, email, passwords) VALUES ('$fullname', '$email', '$hashedPassword')";
-if ($connect->query($sql) === TRUE) {
+$stmt = $connect->prepare("INSERT INTO users (fullname, email, passwords) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $fullname, $email, $hashedPassword);
+
+if ($stmt->execute()) {
     header("Location: ../login.html?status=registered");
     exit();
 } else {
-    echo "Error: " . $sql . "<br>" . $connect->error;
+    echo "Error: " . $stmt->error;
 }
 
+$stmt->close();
 $connect->close();
 ?>

@@ -23,40 +23,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
     $task_title = $_POST['title'];
     $task_priority = $_POST['task_priority'];
     
-    $insert = "INSERT INTO tasks (id, title, task_priority, task_status) 
-               VALUES ('$user_id', '$task_title', '$task_priority', 'pending')";
+    $stmt = $connect->prepare("INSERT INTO tasks (id, title, task_priority, task_status) VALUES (?, ?, ?, 'pending')");
     
-    if ($connect->query($insert)) {
+    $stmt->bind_param("iss", $user_id, $task_title, $task_priority);
+    
+    if ($stmt->execute()) {
         header("Location: dashboard.php?status=success");
     } else {
         header("Location: dashboard.php?status=error");
     }
+    $stmt->close();
     exit();
 }
 
 if (isset($_GET['delete'])) {
     $task_id = $_GET['delete'];
-    $delete = "DELETE FROM tasks WHERE task_id = $task_id AND id = $user_id";
-    if ($connect->query($delete)) {
+    $stmt = $connect->prepare("DELETE FROM tasks WHERE task_id = ? AND id = ?");
+    
+    $stmt->bind_param("ii", $task_id, $user_id);
+    
+    if ($stmt->execute()) {
         header("Location: dashboard.php?status=deleted");
     } else {
         header("Location: dashboard.php?status=error");
     }
+    $stmt->close();
     exit();
 }
 
 if (isset($_GET['complete'])) {
     $task_id = $_GET['complete'];
-    $update = "UPDATE tasks SET task_status='completed' WHERE task_id=$task_id AND id=$user_id";
-    if ($connect->query($update)) {
+    $stmt = $connect->prepare("UPDATE tasks SET task_status='completed' WHERE task_id = ? AND id = ?");
+    
+    $stmt->bind_param("ii", $task_id, $user_id);
+    
+    if ($stmt->execute()) {
         header("Location: dashboard.php?status=completed");
     } else {
         header("Location: dashboard.php?status=error");
     }
+    $stmt->close();
     exit();
 }
 
-$result = $connect->query("SELECT * FROM tasks WHERE id=$user_id ORDER BY Created DESC");
+$stmt = $connect->prepare("SELECT * FROM tasks WHERE id = ? ORDER BY Created DESC");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -139,3 +152,7 @@ $result = $connect->query("SELECT * FROM tasks WHERE id=$user_id ORDER BY Create
 <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>
+<?php
+$stmt->close();
+$connect->close();
+?>
